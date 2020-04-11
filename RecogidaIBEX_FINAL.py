@@ -201,7 +201,8 @@ def plotIbex35(NombreCSVentreComillas):
     plt.margins(0.2)
     plt.subplots_adjust(bottom=0.15)
 
-    plt.title("Evolución del Ibex 35 entre " +labels[0]+" y "+labels[-1])
+    #seleccionamos los 10 primeros caracteres de la fecha pq en caso de que la bolsa este cerrada, no queremos incluir esa informacion en el titulo 
+    plt.title("Evolución del Ibex 35 entre " +labels[0][0:10]+" y "+labels[-1][0:10])
     plt.ylabel('Total al cierre (miles €)')
     plt.legend(['Evolucion del Total'], loc=4)
     
@@ -213,12 +214,13 @@ def plotIbex35(NombreCSVentreComillas):
 ################################funciones de mantenimiento ##################################
 
 #esta funcion permite borrar la ultima columna, esto es muy util durante el periodo de pruebas
-def borrarUltimaColumna():
-    dfGuardado = pd.read_csv('ibex35.csv',sep=",")
+def borrarUltimaColumna(NombreCSVentreComillas):
+    dfGuardado = pd.read_csv(NombreCSVentreComillas,sep=",")
     del dfGuardado[dfGuardado.columns[-1]]
-    dfGuardado.to_csv('ibex35.csv', encoding='utf −8 ',index=False,sep=",")
+    dfGuardado.to_csv(NombreCSVentreComillas, encoding='utf −8 ',index=False,sep=",")
 
 #programa para convertir listados antiguos al formato de nuestro csv con precios en float con punto para decimal
+#esta funcion solo es útil para las personas que utilizaron la version anterior que guardaba en los csv los numeros en string separados por espacio
 def cambiarFormatoLista(NombreCSVentreComillas):
     dfGuardado222 = pd.read_csv(NombreCSVentreComillas,sep=",")
     for m in dfGuardado222.columns[1:]:
@@ -229,7 +231,6 @@ def cambiarFormatoLista(NombreCSVentreComillas):
         dfGuardado222[m]=sinComa 
         
     return dfGuardado222.to_csv(NombreCSVentreComillas, encoding='utf −8 ',index=False,sep=",")
-
 
 
 #######################################################################################
@@ -248,9 +249,14 @@ def lanzarScraping(fechafinal):
         
         horaMadrid = datetime.datetime.now(gettz("Europe/Madrid")).isoformat()[11:16]
         
-        if horaMadrid > '01:00':
-            
+        if today() > fechafinal:
+            print("La fecha final ya ha pasado. Introduzca una nueva fecha final")
+            break
+        
+        if horaMadrid > '18:00':
+     
             programaRecogida()
+            
             print("Datos recogidos el " + today() +" a las "+horaMadrid)
             
             #una vez recogidos los datos si se ha llegado a la fecha indicada se termina el programa se para
@@ -277,6 +283,13 @@ lanzarScraping('10/04/2020')
 
 #En caso de hacer pruebas y recoger los datos antes del cierre, esta función borrará la última entrada del documento guaradado
 #borrarUltimaColumna()
+
+
+# In[7]:
+
+
+dfGuardado222 = pd.read_csv('ibex35.csv',sep=",")
+dfGuardado222
 
 
 # In[ ]:
