@@ -11,3 +11,5 @@ Un documento pdf con la informacion del proyecto
 Un documento python con el codigo empleado para la recoleccion de los datos
 
 Un documento csv que contiene los datos recogidos por el programa. 
+
+(Este ultimo documento tambien se puede encontrar en  10.5281/zenodo.3748653)
