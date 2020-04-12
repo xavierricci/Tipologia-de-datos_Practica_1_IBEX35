@@ -6,13 +6,13 @@ El objetivo del ejercicio es aprender a identificar los datos relevantes por un 
 
 Este repositorio contiene 3 apartados:
 
-Un documento pdf con la informacion del proyecto
+Un documento pdf con la información del proyecto.
 
-Un documento python con el codigo empleado para la recoleccion de los datos
+Un documento python con el código empleado para la recolección de los datos.
 
-Un documento csv que contiene los datos recogidos por el programa. 
+Un documento csv que contiene los datos recogidos por el programa.
 
-Este ultimo documento tambien se puede encontrar en:  
+Este último documento también se puede encontrar en:
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3748817.svg)](https://doi.org/10.5281/zenodo.3748817)
 
