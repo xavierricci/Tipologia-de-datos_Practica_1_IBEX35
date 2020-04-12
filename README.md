@@ -12,4 +12,8 @@ Un documento python con el codigo empleado para la recoleccion de los datos
 
 Un documento csv que contiene los datos recogidos por el programa. 
 
-(Este ultimo documento tambien se puede encontrar en  10.5281/zenodo.3748653)
+Este ultimo documento tambien se puede encontrar en:  
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3748817.svg)](https://doi.org/10.5281/zenodo.3748817)
+
+
