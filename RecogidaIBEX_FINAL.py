@@ -209,7 +209,27 @@ def plotIbex35(NombreCSVentreComillas):
     return plt.show()
 
      
+def esFechaCorrecta(fechafinal):
+           
+    dia=(today()[0:2])
+    mes=today()[3:5]
+    anyo=today()[6:10]
     
+        
+    diafinal=(fechafinal[0:2])
+    mesfinal=fechafinal[3:5]
+    anyofinal=fechafinal[6:10]
+        
+    totalActual = (int(anyo)*1000) + (int(mes)*100) + int(dia)
+    totalFinal = (int(anyofinal)*1000) + (int(mesfinal)*100) + int(diafinal) 
+    
+    print (today())
+    print(totalActual)
+    print (fechafinal)
+    print(totalFinal)
+    
+    print(totalActual<totalFinal)
+    return totalActual<totalFinal
     
 ################################funciones de mantenimiento ##################################
 
@@ -248,12 +268,13 @@ def lanzarScraping(fechafinal):
     while True :
         
         horaMadrid = datetime.datetime.now(gettz("Europe/Madrid")).isoformat()[11:16]
+           
         
-        if today() > fechafinal:
-            print("La fecha final ya ha pasado. Introduzca una nueva fecha final")
+        if esFechaCorrecta(fechafinal)==False:
+            print("La fecha escogida ha de ser posterior al dia de hoy: " + today())
             break
-        
-        if horaMadrid > '18:00':
+            
+        elif (horaMadrid > '18:00'):
      
             programaRecogida()
             
@@ -278,8 +299,8 @@ def lanzarScraping(fechafinal):
             
             
             
-            
-lanzarScraping('10/04/2020')
+# Escribir la fecha en que el programa debe dejar de recoger datos entre comillas.          
+lanzarScraping('31/03/2021')
 
 #En caso de hacer pruebas y recoger los datos antes del cierre, esta función borrará la última entrada del documento guaradado
 #borrarUltimaColumna()
@@ -290,10 +311,6 @@ lanzarScraping('10/04/2020')
 
 dfGuardado222 = pd.read_csv('ibex35.csv',sep=",")
 dfGuardado222
-
-
-# In[ ]:
-
 
 
 
