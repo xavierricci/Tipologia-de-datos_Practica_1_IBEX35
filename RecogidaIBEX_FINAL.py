@@ -132,11 +132,11 @@ def programaRecogida():
     #almacenado de los datos en un csv que se va actualizando siempre que la fecha de entrada de los datos haya cambiado 
 
     #primero nos aseguramos de si el documento ya existe y si no existe lo creamos
-    if os.path.isfile('ibex352.csv') == False:
-        df.to_csv('ibex352.csv', encoding='utf −8 ',index=False,sep=",")
+    if os.path.isfile('ibex35.csv') == False:
+        df.to_csv('ibex35.csv', encoding='utf −8 ',index=False,sep=",")
 
     #creamos un documento de trabajo importando los datos ya guardados
-    dfGuardado = pd.read_csv('ibex352.csv',sep=",")
+    dfGuardado = pd.read_csv('ibex35.csv',sep=",")
 
     
     #miramos si hoy ya se ha hecho la carga para evitar cargar dos veces los mismos datos
@@ -147,13 +147,13 @@ def programaRecogida():
         else:
             dfGuardado[today()] = precios #en caso de que la ficha no se modifique (el fin de semana la bolsa no se actualiza) no habra entrada 
 
-        dfGuardado.to_csv('ibex352.csv', encoding='utf −8 ',index=False,sep=",")
+        dfGuardado.to_csv('ibex35.csv', encoding='utf −8 ',index=False,sep=",")
     else:
         pass
 
 
     
-def plotibex352(NombreCSVentreComillas):
+def plotibex35(NombreCSVentreComillas):
     dfGuardado = pd.read_csv(NombreCSVentreComillas,sep=",")
     
     #creamos un listado de cabeceras
@@ -264,18 +264,18 @@ def lanzarScraping(fechafinal):
             #una vez recogidos los datos si se ha llegado a la fecha indicada se termina el programa se para
             if today() == fechafinal: 
                 print("El programa ha finalizado la recogida de datos")
-                plotibex352('ibex352.csv')
+                plotibex35('ibex35.csv')
                 break
                 
             #Si no aun no se ha llegado a la fecha final el programa espera hasta el dia siguiente para relanzarse 
             print("La proxiama carga de datos será en 24 horas")
-            plotibex352('ibex352.csv')
+            plotibex35('ibex35.csv')
             sleep(PERIOD_OF_TIME)
             
         else:
             print("Ahora en Madrid son las "+ horaMadrid)
             print("Aun no es la hora... Lo volveremos a itentar en una hora")
-            plotibex352('ibex352.csv')
+            plotibex35('ibex35.csv')
             sleep(60*60) # Si aun no es la hora, volver a intentarlo en 1h
             
             
@@ -289,8 +289,9 @@ lanzarScraping('31/03/2021')
 
 
 
-dfGuardado222 = pd.read_csv('ibex352.csv',sep=",")
+dfGuardado222 = pd.read_csv('ibex35.csv',sep=",")
 dfGuardado222
+
 
 
 
