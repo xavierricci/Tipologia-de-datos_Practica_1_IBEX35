@@ -11,26 +11,13 @@
 import os
 import requests
 import pandas as pd
-import numpy
-import csv
+#import numpy
+#import csv
 from bs4 import BeautifulSoup
 from dateutil.tz import gettz
 from time import sleep
 import datetime
 import matplotlib.pyplot as plt
-
-
-#indicamos la web
-url_page = 'http://www.bolsamadrid.es/esp/aspx/Mercados/Precios.aspx?indice=ESI100000000'
-
-#introducimos el html en un objeto beautifulSoap
-page = requests.get(url_page).text 
-soup = BeautifulSoup(page, "lxml")
-
-#seleccionamos la tabla a partir del Xpath //*[@id="ctl00_Contenido_tblAcciones"] que copiamos con el boton derecho sobre el inspector de html de firefox
-tabla = soup.find('table', attrs={'id': "ctl00_Contenido_tblAcciones"})
-tabla2 = soup.find('table', attrs={'id': "ctl00_Contenido_tblÍndice"})
-
 
 
 #para que el programa funcione igual aunque lo lancemos desde cualquier lugar del mundo usamos como referencia la hora de madrid
@@ -45,7 +32,7 @@ def today():
 #creamos una funcion para iterar por los datos que nos interesan
 #vemos que el primer nombre esta en /html/body/div[1]/table/tbody/tr[4]/td[2]/div[1]/form/div[6]/table/tbody/tr[2]/td[1]
 #y que su precio de cierre es       /html/body/div[1]/table/tbody/tr[4]/td[2]/div[1]/form/div[6]/table/tbody/tr[2]/td[2]
-def iteracionTabla(x):
+def iteracionTabla(tabla,x):
     listado = []
     name=""
     price=""
@@ -69,7 +56,7 @@ def iteracionTabla(x):
     return listado
 
 #recogemos tambien el total (creo) PUEDE SERVIR PARA HACER UNA COMPARATIVA GENERAL?
-def ibexTotal():
+def ibexTotal(tabla2):
     listadoExtra=[]
     date=""
     price=""
@@ -92,11 +79,11 @@ def ibexTotal():
     return listadoExtra
 
 #anadimos los resultados a una sola lista 
-def listadoDiario():
+def listadoDiario(tabla,tabla2):
     listadoTotal=[]
-    listadoTotal.append(ibexTotal()) 
+    listadoTotal.append(ibexTotal(tabla2)) 
     for x in range(35):  
-        listadoTotal.append(iteracionTabla(x))    
+        listadoTotal.append(iteracionTabla(tabla,x))    
     return listadoTotal
 #un solo documento continene: el total diario(creo), la fecha y las 35 empresas con su valor 
 
@@ -119,7 +106,7 @@ def programaRecogida():
     
     #ordenamos los datos recogidos en dos listas separadas para crear un dataframe
     list = []
-    list = listadoDiario()
+    list = listadoDiario(tabla,tabla2)
 
     nombres=[]
     for x in range(len(list)):
@@ -145,11 +132,11 @@ def programaRecogida():
     #almacenado de los datos en un csv que se va actualizando siempre que la fecha de entrada de los datos haya cambiado 
 
     #primero nos aseguramos de si el documento ya existe y si no existe lo creamos
-    if os.path.isfile('ibex35.csv') == False:
-        df.to_csv('ibex35.csv', encoding='utf −8 ',index=False,sep=",")
+    if os.path.isfile('ibex352.csv') == False:
+        df.to_csv('ibex352.csv', encoding='utf −8 ',index=False,sep=",")
 
     #creamos un documento de trabajo importando los datos ya guardados
-    dfGuardado = pd.read_csv('ibex35.csv',sep=",")
+    dfGuardado = pd.read_csv('ibex352.csv',sep=",")
 
     
     #miramos si hoy ya se ha hecho la carga para evitar cargar dos veces los mismos datos
@@ -160,13 +147,13 @@ def programaRecogida():
         else:
             dfGuardado[today()] = precios #en caso de que la ficha no se modifique (el fin de semana la bolsa no se actualiza) no habra entrada 
 
-        dfGuardado.to_csv('ibex35.csv', encoding='utf −8 ',index=False,sep=",")
+        dfGuardado.to_csv('ibex352.csv', encoding='utf −8 ',index=False,sep=",")
     else:
         pass
 
 
     
-def plotIbex35(NombreCSVentreComillas):
+def plotibex352(NombreCSVentreComillas):
     dfGuardado = pd.read_csv(NombreCSVentreComillas,sep=",")
     
     #creamos un listado de cabeceras
@@ -277,18 +264,18 @@ def lanzarScraping(fechafinal):
             #una vez recogidos los datos si se ha llegado a la fecha indicada se termina el programa se para
             if today() == fechafinal: 
                 print("El programa ha finalizado la recogida de datos")
-                plotIbex35('ibex35.csv')
+                plotibex352('ibex352.csv')
                 break
                 
             #Si no aun no se ha llegado a la fecha final el programa espera hasta el dia siguiente para relanzarse 
             print("La proxiama carga de datos será en 24 horas")
-            plotIbex35('ibex35.csv')
+            plotibex352('ibex352.csv')
             sleep(PERIOD_OF_TIME)
             
         else:
             print("Ahora en Madrid son las "+ horaMadrid)
             print("Aun no es la hora... Lo volveremos a itentar en una hora")
-            plotIbex35('ibex35.csv')
+            plotibex352('ibex352.csv')
             sleep(60*60) # Si aun no es la hora, volver a intentarlo en 1h
             
             
@@ -300,10 +287,9 @@ lanzarScraping('31/03/2021')
 #borrarUltimaColumna()
 
 
-# In[7]:
 
 
-dfGuardado222 = pd.read_csv('ibex35.csv',sep=",")
+dfGuardado222 = pd.read_csv('ibex352.csv',sep=",")
 dfGuardado222
 
 
