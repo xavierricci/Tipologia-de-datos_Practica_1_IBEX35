@@ -223,12 +223,6 @@ def esFechaCorrecta(fechafinal):
     totalActual = (int(anyo)*1000) + (int(mes)*100) + int(dia)
     totalFinal = (int(anyofinal)*1000) + (int(mesfinal)*100) + int(diafinal) 
     
-    print (today())
-    print(totalActual)
-    print (fechafinal)
-    print(totalFinal)
-    
-    print(totalActual<totalFinal)
     return totalActual<totalFinal
     
 ################################funciones de mantenimiento ##################################
