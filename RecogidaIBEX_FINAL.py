@@ -11,8 +11,8 @@
 import os
 import requests
 import pandas as pd
-#import numpy
-#import csv
+import numpy
+import csv
 from bs4 import BeautifulSoup
 from dateutil.tz import gettz
 from time import sleep
