@@ -275,7 +275,7 @@ def lanzarScraping(fechafinal):
         else:
             print("Ahora en Madrid son las "+ horaMadrid)
             print("Aun no es la hora... Lo volveremos a itentar en una hora")
-            plotibex35('ibex35.csv')
+            #plotibex35('ibex35.csv')
             sleep(60*60) # Si aun no es la hora, volver a intentarlo en 1h
             
             
